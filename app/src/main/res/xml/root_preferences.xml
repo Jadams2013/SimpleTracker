@@ -1,0 +1,70 @@
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <PreferenceCategory
+        android:title="@string/display_header"
+        android:summary="@string/menu_display_summary" >
+        <ListPreference
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:defaultValue="MODE_NIGHT_FOLLOW_SYSTEM"
+            app:entries="@array/dark_entries"
+            app:entryValues="@array/dark_values"
+            app:key="dark"
+            app:title="@string/app_theme"
+            app:useSimpleSummaryProvider="true" />
+        <ListPreference
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:defaultValue="none"
+            app:entries="@array/font_entries"
+            app:entryValues="@array/font_values"
+            app:key="font"
+            app:title="@string/font_title"
+            app:useSimpleSummaryProvider="true" />
+        <CheckBoxPreference
+            android:defaultValue="true"
+            android:key="helpOnStart"
+            android:title="@string/help_switch_header" />
+    </PreferenceCategory>
+
+    <PreferenceCategory app:title="@string/notification_header">
+        <CheckBoxPreference
+            android:defaultValue="true"
+            android:key="notificationsEnabled"
+            android:title="@string/notification_enable"
+            android:summary="@string/notification_summary"/>
+    </PreferenceCategory>
+
+
+
+    <PreferenceCategory app:title="@string/sync_header">
+        <!--TODO: NEXT figure out Sync stuff -->
+        <Preference
+            android:title="@string/sync_sign_in_button"
+            android:key="signInButton"
+            android:summary="@string/sync_sign_in_summary" />
+        <ListPreference
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:defaultValue="NEVER"
+            app:entries="@array/sync_entries"
+            app:entryValues="@array/sync_values"
+            app:key="syncFrequency"
+            app:title="@string/sync_frequency"
+            app:useSimpleSummaryProvider="true" />
+        <CheckBoxPreference
+            android:defaultValue="true"
+            app:key="syncUsingData"
+            app:title="@string/sync_using_data" />
+        <Preference
+            android:title="@string/sync_now_button"
+            android:key="syncNowButton" />
+        <Preference
+            android:title="@string/clear_memory_button"
+            android:summary="@string/clear_memory_button_summary"
+            android:key="clearMemoryButton" />
+
+    </PreferenceCategory>
+
+</PreferenceScreen>

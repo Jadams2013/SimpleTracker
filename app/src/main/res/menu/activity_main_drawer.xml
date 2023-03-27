@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:showIn="navigation_view">
+
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_home"
+            android:icon="@drawable/baseline_format_list_bulleted_24"
+            android:title="@string/menu_home" />
+        <!--item TODO LAST remove this and folder
+            android:id="@+id/nav_gallery"
+            android:icon="@drawable/baseline_calendar_today_24"
+            android:title="@string/menu_gallery" /-->
+        <item
+            android:id="@+id/nav_slideshow"
+            android:icon="@drawable/baseline_percent_24"
+            android:title="@string/menu_slideshow" />
+        <item
+            android:id="@+id/nav_settings"
+            android:icon="@drawable/baseline_settings_24"
+            android:title="@string/menu_display" />
+        <!--
+        <item
+            android:id="@+id/nav_help"
+            android:icon="@drawable/baseline_help_outline_24"
+            android:title="@string/help_display" />
+            -->
+    </group>
+</menu>

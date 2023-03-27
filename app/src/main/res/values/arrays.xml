@@ -1,0 +1,52 @@
+<resources>
+    <!-- Reply Preference -->
+    <string-array name="reply_entries">
+        <item>Reply</item>
+        <item>Reply to all</item>
+    </string-array>
+    <string-array name="reply_values">
+        <item>reply</item>
+        <item>reply_all</item>
+    </string-array>
+
+    <!-- Light/Dark Preference -->
+    <string-array name="dark_entries">
+        <item>Light Mode</item>
+        <item>Dark Mode</item>
+        <item>System default</item>
+    </string-array>
+    <string-array name="dark_values">
+        <item>MODE_NIGHT_NO</item>
+        <item>MODE_NIGHT_YES</item>
+        <item>MODE_NIGHT_FOLLOW_SYSTEM</item>
+    </string-array>
+
+    <!-- Font options -->
+    <string-array name="font_entries">
+        <item>Android Default</item>
+        <item>Lexend</item>
+        <item>Noto Serif</item>
+        <item>Shantell Sans</item>
+    </string-array>
+    <string-array name="font_values">
+        <item>none</item>
+        <item>lexend</item>
+        <item>noto</item>
+        <item>shantell</item>
+    </string-array>
+
+    <!-- Sync options -->
+    <string-array name="sync_entries">
+        <item>Every time app opens</item>
+        <item>Once per day</item>
+        <item>Once per week</item>
+        <item>Never</item>
+    </string-array>
+    <string-array name="sync_values">
+        <item>ON_APP_LAUNCH</item>
+        <item>DAILY</item>
+        <item>WEEKLY</item>
+        <item>NEVER</item>
+    </string-array>
+
+</resources>

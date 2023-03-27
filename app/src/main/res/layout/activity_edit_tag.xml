@@ -1,0 +1,213 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".EditTagActivity">
+
+    <EditText
+        android:id="@+id/editTagName"
+        android:layout_width="match_parent"
+        android:layout_marginHorizontal="@dimen/margin"
+        android:layout_height="@dimen/height"
+        android:layout_marginTop="@dimen/margin"
+        android:ems="10"
+        android:inputType="textPersonName"
+        android:text="Tag Name"
+        android:hint="@string/tag_name"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <EditText
+        android:id="@+id/editTagNote"
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:layout_marginHorizontal="@dimen/margin"
+        android:ems="10"
+        android:hint="@string/tag_note"
+        android:inputType="textMultiLine"
+        app:layout_constraintTop_toBottomOf="@+id/editTagName" />
+
+    <TextView
+        android:id="@+id/reminder_header"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/text_height"
+        android:textSize="15dp"
+        android:layout_marginHorizontal="@dimen/margin"
+        android:text="Daily Reminder"
+        android:gravity="bottom"
+        app:layout_constraintTop_toBottomOf="@+id/editTagNote" />
+
+    <LinearLayout
+        android:id="@+id/reminder_linear_layout"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/height"
+        android:layout_marginHorizontal="@dimen/margin"
+        android:orientation="horizontal"
+        app:layout_constraintTop_toBottomOf="@+id/reminder_header"
+        tools:layout_editor_absoluteX="16dp">
+
+        <ToggleButton
+            android:id="@+id/reminder_toggle"
+            android:layout_width="1dp"
+            android:layout_height="@dimen/height"
+            android:layout_weight="1"
+            android:checked="false"
+            android:text="Daily Reminder" />
+
+        <TextView
+            android:id="@+id/time_selected"
+            android:layout_width="@dimen/width"
+            android:layout_height="@dimen/height"
+            android:layout_gravity="center"
+            android:textAlignment="center"
+            android:textSize="30dp"/>
+
+        <Button
+            android:id="@+id/time_picker"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/height"
+            android:text="set time" />
+
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/noteInfo"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/text_height"
+        android:layout_marginHorizontal="@dimen/margin"
+        android:text="Data History"
+        android:gravity="bottom"
+        app:layout_constraintTop_toBottomOf="@+id/reminder_linear_layout"
+        tools:layout_editor_absoluteX="16dp" />
+
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/point_view"
+            android:layout_width="match_parent"
+            android:layout_marginHorizontal="@dimen/margin"
+            android:layout_height="200dp"
+            app:layout_constraintTop_toBottomOf="@+id/noteInfo"/>
+
+        <!--Button
+            android:id="@+id/backDate"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/height"
+            android:text="Add Data points" /-->
+
+
+    <Button
+        android:id="@+id/deleteTag"
+        android:layout_width="@dimen/width"
+        android:layout_height="@dimen/height"
+        android:drawableLeft="@drawable/baseline_delete_24"
+        android:drawableTint="@color/black_2"
+        android:text="Delete Tag"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/point_view"/>
+
+    <Button
+        android:id="@+id/cancel"
+        android:layout_width="@dimen/width"
+        android:layout_height="@dimen/height"
+        android:layout_marginStart="@dimen/margin"
+        android:layout_marginBottom="@dimen/margin"
+        android:text="Cancel"
+        android:onClick="cancel"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <Button
+        android:id="@+id/saveTag"
+        android:layout_width="@dimen/width"
+        android:layout_height="@dimen/height"
+        android:layout_marginEnd="@dimen/margin"
+        android:layout_marginBottom="@dimen/margin"
+        android:text="Save"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
+
+<!--
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+xmlns:tools="http://schemas.android.com/tools"
+android:id="@+id/add_note_background"
+android:layout_width="match_parent"
+android:layout_height="match_parent"
+tools:context=".EditTagActivity">
+
+
+<LinearLayout
+    android:id="@+id/add_note_window_bg"
+    android:layout_width="300dp"
+    android:layout_height="250dp"
+    android:layout_centerInParent="true"
+    android:background="@drawable/note_bg_layout"
+    android:orientation="vertical">
+
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/add_note_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:padding="8dp"
+        android:text="Note"
+        android:textAlignment="center"
+        android:textColor="@android:color/white"
+        android:textSize="14sp"
+        android:textStyle="bold" />
+
+    <RelativeLayout
+        android:id="@+id/add_note_text_bg"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_margin="12dp"
+        android:layout_weight="1"
+        android:background="@drawable/note_text_bg_layout"
+        android:textAllCaps="false"
+        android:textColor="#FFFFFF"
+        android:textSize="20sp">
+
+        <EditText
+            android:id="@+id/add_note_text"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginBottom="8dp"
+            android:background="@android:color/transparent"
+            android:gravity="top"
+            android:inputType="textMultiLine"
+            android:textColor="@android:color/white"
+            android:textCursorDrawable="@drawable/note_text_cursor_color"
+            android:textSize="16sp"
+            tools:ignore="SpeakableTextPresentCheck" />
+
+    </RelativeLayout>
+
+    <Button
+        android:id="@+id/add_note_button"
+        style="?android:attr/borderlessButtonStyle"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_marginLeft="12dp"
+        android:layout_marginTop="2dp"
+        android:layout_marginRight="12dp"
+        android:layout_marginBottom="12dp"
+        android:background="@drawable/note_button_bg_layout"
+        android:text="Add/Update Note"
+        android:textAllCaps="false"
+        android:textColor="@android:color/white"
+        android:textSize="14sp"
+        android:textStyle="bold"
+        tools:ignore="TouchTargetSizeCheck" />
+
+
+</LinearLayout>
+</RelativeLayout> -->
