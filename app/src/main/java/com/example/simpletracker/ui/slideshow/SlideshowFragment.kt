@@ -60,8 +60,8 @@ class SlideshowFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
 
-        val spinner1 = view.findViewById<Spinner>(com.example.simpletracker.R.id.tag1Spinner)
-        val spinner2 = view.findViewById<Spinner>(com.example.simpletracker.R.id.tag2Spinner)
+        val spinner1 = view.findViewById<Spinner>(R.id.tag1Spinner)
+        val spinner2 = view.findViewById<Spinner>(R.id.tag2Spinner)
 
         val spinnerAdapter: ArrayAdapter<String> = ArrayAdapter<String>(view.context, android.R.layout.simple_spinner_item)
         spinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
@@ -96,8 +96,7 @@ class SlideshowFragment : Fragment() {
                         if (it == null)
                             temp = 0.0
                         else
-                            temp = it * 100
-                        temp = temp.roundToInt().toDouble()/100
+                            temp = round(it,2)
                         view?.findViewById<TextView>(R.id.tag1Text2)?.text = "Average Severity: $temp\n "
                         Log.d("Average Severity", it.toString())
                     }
@@ -113,7 +112,7 @@ class SlideshowFragment : Fragment() {
             override fun onNothingSelected(parent: AdapterView<*>?) { }
             override fun onItemSelected(parent: AdapterView<*>?, viewLocal: View?, position: Int, id: Long) {
                 tag2 = tagList?.get(position)?.tagId ?: 0
-                Log.d("Tag2 selected","$tag1")
+                Log.d("Tag2 selected","$tag2")
                 checkForCalculate()
                 lifecycleScope.launch {
                     tagDatabase.numPoints(tag2).collect {
@@ -127,14 +126,11 @@ class SlideshowFragment : Fragment() {
                         if (it == null)
                             temp = 0.0
                         else
-                            temp = it * 100
-                        temp = temp.roundToInt().toDouble()/100
+                            temp = round(it,2)
                         view?.findViewById<TextView>(R.id.tag2Text2)?.text = "Average Severity: $temp\n "
                         Log.d("Average Severity", it.toString())
                     }
                 }
-
-
                 //TODO over the last x weeks?
             }
         }
@@ -148,41 +144,98 @@ class SlideshowFragment : Fragment() {
         if (tag1 == tag2) {
             view?.findViewById<TextView>(R.id.resultsNum)?.text = ""
             view?.findViewById<TextView>(R.id.resultsText)?.text = "Please select two different tags"
-            //TODO make this in strings.xml"
+            //TODO make this in strings.xml
         } else {
             view?.findViewById<TextView>(R.id.resultsNum)?.text = "0.XX "
             view?.findViewById<TextView>(R.id.resultsText)?.text = "Calculating..."
-            /*lifecycleScope.launch {
-                tagDatabase.calculateCorrelation(tag1, tag2).collect {
-                    var temp:Double = it * 100
-                    temp = temp.roundToInt().toDouble()/100
-                    view?.findViewById<TextView>(R.id.resultsNum)?.text = temp.toString()
-                    Log.d("Correlation Coefficient", it.toString())
-                    view?.findViewById<TextView>(R.id.resultsText)?.text = correlationStrengthString(it)
-                }
-            }// */
+
+            lifecycleScope.launch {correlate()}
+
         }
+    }
 
 
-        /*lifecycleScope.launch {
-            tagDatabase.calculateCorrelation(tag1, tag2).collect {
-                correlation = it
-
-            }
-        } // */
-
+    private fun round(number: Double, placesToRound: Int):Double {
+        if (placesToRound < 1) return number
+        if (number.isNaN()) return number
+        var places:Int = 1
+        for(i in 1..placesToRound) {
+            places *= 10
+        }
+        var temp:Double = number * places
+        temp = temp.roundToInt().toDouble()/places
+        return temp
     }
 
 
     private fun correlationStrengthString(double: Double):String {
-        //TODO make this update text talking about high/low
-        if (double > 0.5){
+        //TODO make this in strings.xml
+        if (double > 0.75)
+            return "The two data tags are strongly positively correlated" +
+                    "\nIf one goes up, the other is very likely to go up as well"
+        if (double > 0.2 && double < 0.75)
             return "The two data tags are positively correlated\n" +
-                    "If one goes up, the other will likely go up as well"
-        }
-        else
-            return "There was an error calculating the correlation"
+                    "If one goes up, the other is likely to increase"
+        if (double < 0.2 && double > -0.2)
+            return "There is very little correlation between the data tags," +
+                    "\nthe tags are unlikely to affect each other"
+        if (double < -0.2 && double > -0.75)
+            return "The two data tags are positively correlated\n" +
+                    "If one goes up, the other is likely to decrease"
+        if (double < -0.75)
+            return "The two data tags are strongly negatively correlated" +
+                    "\nIf one goes up, the other is very likely to go down and vice-versa"
+
+        return "There was an error calculating the correlation"
+
     }
+
+
+
+
+    private suspend fun correlate() {
+
+        //TODO export data to excel and check that correlation calculation is correct
+
+        var answer:Double = 0.0
+        var sumX:Double = 0.0
+        var sumY:Double = 0.0
+        var sumXY:Double = 0.0
+        var sumXsquared:Double = 0.0
+        var sumYsquared:Double = 0.0
+        var n:Double = 0.0
+
+        Log.d("Correlate","setup")
+
+        tagDatabase.getPointsByTag(tag1).collect { it1 ->
+            for (point in it1){
+                sumX += point.severity
+                n += 1.0
+                sumXsquared += (point.severity * point.severity)
+            }
+
+            Log.d("Correlate","sumX:$sumX, sumXsquared:$sumXsquared, n:$n ")
+            tagDatabase.getPointsByTag(tag2).collect {
+                for (point in it) {
+                    sumY += point.severity
+                    n += 1.0
+                    sumYsquared += (point.severity * point.severity)
+                }
+
+                Log.d("Correlate","sumY:$sumY, sumYsquared:$sumYsquared, n:$n, sumXY:$sumXY ")
+                answer = ( (n*sumXY) - (sumX*sumY) ) /
+                        Math.sqrt(  ( (n*sumXsquared)-(sumX*sumX) ) * ( (n*sumYsquared)-(sumY*sumY) )  )
+                Log.d("Correlate","$answer")
+
+                correlation = answer
+                view?.findViewById<TextView>(R.id.resultsNum)?.text = round(answer,2).toString()
+                view?.findViewById<TextView>(R.id.resultsText)?.text = correlationStrengthString(answer)
+            }
+        }
+    }
+
+
+
 
 
 }

@@ -31,7 +31,7 @@ interface TagDao {
     suspend fun clearAllTags()
 
 
-    /*@Query("SELECT AVG(severity) FROM point_table " +
+    /*@Query("SELECT CORR(severity) FROM point_table " +
             "WHERE point_table.tagIdForeignKey LIKE :tag1 " ) //TODO FIRST do this
     fun calculateCorrelation(tag1: Int, tag2: Int): Flow<Double>
     // */
