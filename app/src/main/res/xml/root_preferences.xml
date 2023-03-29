@@ -32,31 +32,17 @@
         <CheckBoxPreference
             android:defaultValue="true"
             android:key="notificationsEnabled"
-            android:title="@string/notification_enable"
-            android:summary="@string/notification_summary"/>
+            android:title="@string/notification_enable"/>
     </PreferenceCategory>
 
 
 
     <PreferenceCategory app:title="@string/sync_header">
-        <!--TODO: NEXT figure out Sync stuff -->
+        <!--TODO: FIRST figure out Sync stuff -->
         <Preference
             android:title="@string/sync_sign_in_button"
             android:key="signInButton"
             android:summary="@string/sync_sign_in_summary" />
-        <ListPreference
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:defaultValue="NEVER"
-            app:entries="@array/sync_entries"
-            app:entryValues="@array/sync_values"
-            app:key="syncFrequency"
-            app:title="@string/sync_frequency"
-            app:useSimpleSummaryProvider="true" />
-        <CheckBoxPreference
-            android:defaultValue="true"
-            app:key="syncUsingData"
-            app:title="@string/sync_using_data" />
         <Preference
             android:title="@string/sync_now_button"
             android:key="syncNowButton" />

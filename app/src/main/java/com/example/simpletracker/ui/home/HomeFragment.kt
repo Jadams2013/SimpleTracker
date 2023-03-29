@@ -39,14 +39,6 @@ class HomeFragment : Fragment() {
         _binding = FragmentHomeBinding.inflate(inflater, container, false)
         val root: View = binding.root
 
-        /* TODO LAST make sure this is unnecessary and then remove
-        val homeViewModel = ViewModelProvider(this).get(HomeViewModel::class.java)
-        val textView: TextView = binding.textHome
-        homeViewModel.text.observe(viewLifecycleOwner) {
-            textView.text = it
-        }
-        */
-
         root?.findViewById<com.google.android.material.floatingactionbutton.FloatingActionButton>(R.id.floatingActionButton)
             ?.setOnClickListener {
                 newTag()
@@ -79,32 +71,11 @@ class HomeFragment : Fragment() {
         adapter = TagsRVAdapter()
         adapter.setItemListener(object : RecyclerClickListener {
 
-            /*/ Tap the 'X' to delete the tag. TODO LAST make sure this is unnecessary and then remove
-            override fun onItemRemoveClick(position: Int) {
-                val tagsList = adapter.currentList.toMutableList()
-                val tagId = tagsList[position].tagId
-                val tagName = tagsList[position].tagName
-                val tagNote = tagsList[position].tagNote
-                val tagDateAdded = tagsList[position].dateAdded
-                val removeTag = Tag(tagId, tagName, tagNote, tagDateAdded)
-                tagsList.removeAt(position)
-                adapter.submitList(tagsList)
-                lifecycleScope.launch {
-                    tagDatabase.deleteTag(removeTag)
-                    tagDatabase.deletePointsByTag(removeTag.tagId)
-                }
-            }// */
-
             // Tap the tag to edit.
             override fun onItemClick(position: Int) {
                 val intent = Intent(activity, EditTagActivity::class.java)
                 val tagsList = adapter.currentList.toMutableList()
                 intent.putExtra("tag_id", tagsList[position].tagId)
-
-                /*/TODO LAST remove this?
-                intent.putExtra("tag_name", tagsList[position].tagName)
-                intent.putExtra("tag_note", tagsList[position].tagNote)
-                intent.putExtra("tag_date_added", tagsList[position].dateAdded.time)// */
 
                 editTagResultLauncher.launch(intent)
             }
@@ -135,44 +106,13 @@ class HomeFragment : Fragment() {
 
     private val newTagResultLauncher =
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
-            if (result.resultCode == Activity.RESULT_OK) {/* TODO LAST make sure this is unnecessary and then remove
-                // Get the new tag from the AddTagActivity
-                val tagName = result.data?.getStringExtra("tag_name")
-                val tagNote = result.data?.getStringExtra("tag_note")
-                val dateAdded = Date()
-                //val points: Set<Point> = emptySet()
-                // Add the new tag at the top of the list
-                val newTag = Tag(0, tagName.toString(), tagNote.toString(), dateAdded)
-                lifecycleScope.launch {
-                    tagDatabase.insert(newTag)
-                }*/
+            if (result.resultCode == Activity.RESULT_OK) {
             }
         }
 
     val editTagResultLauncher =
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
             if (result.resultCode == Activity.RESULT_OK) {
-
-                /* TODO LAST make sure this is unnecessary and then remove
-                // Get the edited tag from the AddTagActivity
-                val tagId = result.data?.getIntExtra("tag_id", 0) ?: 0
-                var tagName: String = result.data?.getStringExtra("tag_name") ?: ""
-                val tagNote = result.data?.getStringExtra("tag_note")
-                val tagDateAdded = Date(result.data?.getLongExtra("tag_date_added", 0) ?: 0)
-                // Update the tag in the list
-                val editedTag = Tag(tagId, tagName, tagNote, tagDateAdded)
-
-                if (result.data?.getBooleanExtra("delete",false) == true){
-                    lifecycleScope.launch {
-                        tagDatabase.deleteTag(editedTag)
-                        tagDatabase.deletePointsByTag(editedTag.tagId)
-                    }
-                } else {
-                    lifecycleScope.launch {
-                        tagDatabase.updateTag(editedTag)
-                    }
-                }*/
-                //observeTags() //unnecessary?
             }
         }
 }

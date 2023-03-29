@@ -2,6 +2,7 @@ package com.example.simpletracker
 
 import android.app.Activity
 import android.app.AlarmManager
+import android.app.AlertDialog
 import android.app.PendingIntent
 import android.app.TimePickerDialog
 import android.content.Context
@@ -33,10 +34,7 @@ class EditTagActivity : AppCompatActivity() {
         Date(0),
         Calendar.getInstance(),
         false)
-
-    //TODO LAST
-    //put in local list of points to be deleted so deleting only happens on save?
-
+    private var pointsToDelete = mutableListOf<Tag.Point>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -55,6 +53,10 @@ class EditTagActivity : AppCompatActivity() {
         val reminderStuff = findViewById<LinearLayout>(R.id.reminder_linear_layout)
         val reminderHeader = findViewById<TextView>(R.id.reminder_header)
         val toggle = findViewById<ToggleButton>(R.id.reminder_toggle)
+        val dataHeader = findViewById<TextView>(R.id.noteInfo)
+        val timeSelected = findViewById<TextView>(R.id.time_selected)
+        val timePicker = findViewById<TextView>(R.id.time_picker)
+
         //get from preferences
         val notificationsEnabled = PreferenceManager.getDefaultSharedPreferences(this)
             .getBoolean("notificationsEnabled", false)
@@ -69,15 +71,31 @@ class EditTagActivity : AppCompatActivity() {
         } else {
             if (localTag.tagId == 0) {
                 reminderStuff.visibility = View.GONE
+                dataHeader.visibility = View.GONE
                 reminderHeader.text = getText(R.string.reminderStuff)
             } else {
 
 
                 //check if alarm is set and put toggle to checked if so
-                if (localTag.reminderOn) {toggle.isChecked = true}
+                if (!localTag.reminderOn) {
+                    //timeSelected.visibility = View.GONE
+                    //timePicker.visibility = View.GONE
+                    //TODO FIRST make alarm on/off more visible
+                } else {
+                    //timeSelected.visibility = View.VISIBLE
+                    //timePicker.visibility = View.VISIBLE
+                    toggle.isChecked = true
+                }
 
                 toggle.setOnClickListener {
                     localTag.reminderOn = toggle.isChecked
+                    if (!localTag.reminderOn) {
+                        timeSelected.visibility = View.GONE
+                        timePicker.visibility = View.GONE
+                    } else {
+                        timeSelected.visibility = View.VISIBLE
+                        timePicker.visibility = View.VISIBLE
+                    }
                 }
             }
         }
@@ -88,20 +106,25 @@ class EditTagActivity : AppCompatActivity() {
         } else {
             deleteButton.setOnClickListener {
 
-                //TODO LAST
-                //put in "are you sure?" popup
-                //https://stackoverflow.com/questions/59340099/how-to-set-confirm-delete-alertdialogue-box-in-kotlin
-
-                lifecycleScope.launch {
-                    getTagFromDatabase(localTag.tagId)
-                    tagDatabase.deletePointsByTag(localTag.tagId)
-                    tagDatabase.deleteTag(localTag)
-                    alarmOff()
-                }
-
-                //close the activity
-                setResult(Activity.RESULT_OK, intent)
-                finish()
+                val builder = AlertDialog.Builder(this)
+                builder.setMessage("Are you sure you want to delete this tag?")
+                    .setCancelable(false)
+                    .setNegativeButton("No") { dialog, _ ->
+                        dialog.dismiss()
+                    }
+                    .setPositiveButton("Yes") { _, _ ->
+                        lifecycleScope.launch {
+                            getTagFromDatabase(localTag.tagId)
+                            tagDatabase.deletePointsByTag(localTag.tagId)
+                            tagDatabase.deleteTag(localTag)
+                            alarmOff()
+                            //close the activity
+                            setResult(Activity.RESULT_OK, intent)
+                            finish()
+                        }
+                    }
+                val alert = builder.create()
+                alert.show()
             }
         }
 
@@ -121,6 +144,7 @@ class EditTagActivity : AppCompatActivity() {
                         tagDatabase.updateTag(localTag)
                         if (localTag.reminderOn) alarmOn()
                         else alarmOff()
+                        for (point in pointsToDelete) {tagDatabase.deletePoint(point)}
                     }
                 }
                 setResult(Activity.RESULT_OK, intent)
@@ -205,9 +229,7 @@ class EditTagActivity : AppCompatActivity() {
                 val removePoint = Tag.Point(pointId, tagIdForeignKey, time, severity)
                 pointList.removeAt(position)
                 adapter.submitList(pointList)
-                lifecycleScope.launch {
-                    tagDatabase.deletePoint(removePoint)
-                }
+                pointsToDelete.add(removePoint)
             }
 
         })
@@ -225,10 +247,6 @@ class EditTagActivity : AppCompatActivity() {
         }
     }
 
-
-    //alarm stuff
-    //TODO LAST
-    //make the set time button and time disappear based on alarm on/off
     private fun pickTime(view: View? = null) {
 
         val txtTime = findViewById<TextView>(R.id.time_selected)
@@ -276,6 +294,8 @@ class EditTagActivity : AppCompatActivity() {
         localTag.reminder.timeInMillis = System.currentTimeMillis()
         localTag.reminder.set(Calendar.HOUR, hour)
         localTag.reminder.set(Calendar.MINUTE, minute)
+        if (localTag.reminder.timeInMillis < System.currentTimeMillis())
+            localTag.reminder.add(Calendar.DAY_OF_YEAR,1)
 
         alarmManager.setInexactRepeating(
             AlarmManager.RTC_WAKEUP,

@@ -57,7 +57,7 @@ class MainActivity : AppCompatActivity() {
         // menu should be considered as top level destinations.
         appBarConfiguration = AppBarConfiguration(
             setOf(
-                R.id.nav_home, R.id.nav_gallery, R.id.nav_slideshow, R.xml.root_preferences
+                R.id.nav_home, R.id.nav_slideshow, R.xml.root_preferences
             ), drawerLayout
         )
         setupActionBarWithNavController(navController, appBarConfiguration)
@@ -66,12 +66,10 @@ class MainActivity : AppCompatActivity() {
 
         updateSettings()
 
+        getDatabasePath(tagDatabase.toString())
+
     }
 
-
-
-    //TODO LAST
-    //make sharedPref a local variable so it isn't created every time a setting thing is done?
 
 
     private fun setNightMode(view: View? = null) {
@@ -95,7 +93,7 @@ class MainActivity : AppCompatActivity() {
             "shantell" -> setTheme(R.style.Theme_SimpleTracker_shantell)
             else -> setTheme(R.style.Theme_SimpleTracker)
         }
-        /* TODO: LAST
+        /* TODO: FIRST
         figure out font not applying to header
         https://developer.android.com/develop/ui/views/theming/darktheme
         https://developer.android.com/codelabs/basic-android-kotlin-training-change-app-theme#2
@@ -105,8 +103,9 @@ class MainActivity : AppCompatActivity() {
     }
 
 
+    //TODO FIRST make backdate fragment
 
-    private fun setReminders(view: View? = null) { //TODO FIRST figure out why this isn't working
+    fun setReminders(view: View? = null) {
         var sharedPref = PreferenceManager.getDefaultSharedPreferences(this)
         var pref = sharedPref.getBoolean("notificationsEnabled", false)
 
@@ -129,6 +128,8 @@ class MainActivity : AppCompatActivity() {
                         tag.reminder.timeInMillis = System.currentTimeMillis()
                         tag.reminder.set(Calendar.HOUR, hour)
                         tag.reminder.set(Calendar.MINUTE, minute)
+                        if (tag.reminder.timeInMillis < System.currentTimeMillis())
+                            tag.reminder.add(Calendar.DAY_OF_YEAR,1)
 
                         val pendingIntent = PendingIntent.getBroadcast(
                             this@MainActivity,

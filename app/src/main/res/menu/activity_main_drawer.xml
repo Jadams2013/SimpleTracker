@@ -8,10 +8,7 @@
             android:id="@+id/nav_home"
             android:icon="@drawable/baseline_format_list_bulleted_24"
             android:title="@string/menu_home" />
-        <!--item TODO LAST remove this and folder
-            android:id="@+id/nav_gallery"
-            android:icon="@drawable/baseline_calendar_today_24"
-            android:title="@string/menu_gallery" /-->
+
         <item
             android:id="@+id/nav_slideshow"
             android:icon="@drawable/baseline_percent_24"

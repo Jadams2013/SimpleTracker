@@ -10,10 +10,7 @@
         <item name="colorOnSecondary">@color/white</item>
         <item name="android:statusBarColor">?attr/colorPrimaryVariant</item>
         <!--TODO: LAST
-        style snackbars in dark mode
-        https://stackoverflow.com/questions/32425191/style-snackbar-in-theme-app -->
-        <!--TODO: LAST
-        fix dark mode color selection
+        tweak dark mode color selection
         https://www.w3schools.com/colors/colors_picker.asp -->
         <!--TODO: LAST
         add in custom app icon

@@ -49,9 +49,8 @@
 
         <ToggleButton
             android:id="@+id/reminder_toggle"
-            android:layout_width="1dp"
+            android:layout_width="wrap_content"
             android:layout_height="@dimen/height"
-            android:layout_weight="1"
             android:checked="false"
             android:text="Daily Reminder" />
 

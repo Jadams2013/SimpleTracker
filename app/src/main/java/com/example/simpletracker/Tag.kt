@@ -12,8 +12,6 @@ data class Tag(
     var dateAdded: Date,
     var reminder: Calendar,
     var reminderOn: Boolean = false
-    //TODO LAST
-    //change this into Calendar object and put in a converter in TagConverters
 ){
 
     @Entity(tableName = "point_table")

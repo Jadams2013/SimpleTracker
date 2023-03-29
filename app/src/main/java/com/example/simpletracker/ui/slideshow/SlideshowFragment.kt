@@ -195,8 +195,6 @@ class SlideshowFragment : Fragment() {
 
     private suspend fun correlate() {
 
-        //TODO export data to excel and check that correlation calculation is correct
-
         var answer:Double = 0.0
         var sumX:Double = 0.0
         var sumY:Double = 0.0

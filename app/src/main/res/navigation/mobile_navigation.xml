@@ -12,12 +12,6 @@
         tools:layout="@layout/fragment_home" />
 
     <fragment
-        android:id="@+id/nav_gallery"
-        android:name="com.example.simpletracker.ui.gallery.GalleryFragment"
-        android:label="@string/menu_gallery"
-        tools:layout="@layout/fragment_gallery" />
-
-    <fragment
         android:id="@+id/nav_slideshow"
         android:name="com.example.simpletracker.ui.slideshow.SlideshowFragment"
         android:label="@string/menu_slideshow"
@@ -29,13 +23,13 @@
         android:label="@string/menu_display"
         tools:layout="@xml/root_preferences" />
 
-    <!--TODO: LAST
+    <!--TODO: FIRST
     create Help page
     <fragment
         android:id="@+id/nav_help"
-        android:name=""
+        android:name="com.example.simpletracker.HelpFragment"
         android:label="@string/help_display"
-        tools:layout=""/>
+        tools:layout="@xml/fragment_help"/>
         -->
 
 </navigation>

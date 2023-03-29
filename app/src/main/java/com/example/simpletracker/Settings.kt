@@ -1,7 +1,6 @@
 package com.example.simpletracker
 
-import android.app.TimePickerDialog
-import android.app.TimePickerDialog.OnTimeSetListener
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import androidx.preference.Preference
@@ -30,8 +29,8 @@ class Settings : PreferenceFragmentCompat() {
         when (preference.key) {
             "signInButton" -> signIn()
             "syncNowButton" -> sync()
-            "dark" -> Log.d("Message", "dark")
-            "font" -> Log.d("Message", "font")
+            //"dark" -> dealWithTheme()
+            //"font" -> dealWithFont()
             "clearMemoryButton" -> clearMemory()
             "notificationsEnabled" -> dealWithNotifs()
             else -> Log.d("Message", "unknown preference click")
@@ -40,11 +39,8 @@ class Settings : PreferenceFragmentCompat() {
     }
 
     private fun dealWithNotifs() {
-        //TODO FIRST
-        //call setReminders in main activity
-        //https://stackoverflow.com/questions/12659747/call-an-activity-method-from-a-fragment
+        (activity as MainActivity?)?.setReminders()
     }
-
     private fun clearMemory() {
         val tagDatabase by lazy { TagDatabase.getDatabase(requireContext()).tagDao() }
         GlobalScope.launch {
@@ -55,6 +51,7 @@ class Settings : PreferenceFragmentCompat() {
 
     private fun signIn() {
         Log.d("Message", "signInButton")
+        startActivity(Intent(android.provider.Settings.ACTION_SETTINGS))
     }
 
     private fun sync() {
