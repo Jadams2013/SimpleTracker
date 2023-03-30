@@ -43,8 +43,7 @@ class AlarmReceiver : BroadcastReceiver() {
             ) != PackageManager.PERMISSION_GRANTED
         ) {
             Log.d("Error","notification permission not granted for current context")
-            // TODO: Consider calling
-            //    ActivityCompat#requestPermissions
+            // Consider calling ActivityCompat#requestPermissions
             // here to request the missing permissions, and then overriding
             //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
             //                                          int[] grantResults)

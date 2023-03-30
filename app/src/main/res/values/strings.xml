@@ -23,7 +23,8 @@
     <string name="menu_display_summary">Relaunch app to apply display changes</string>
 
     <!-- Sync Preferences -->
-    <string name="sync_sign_in_button">Android Sign in</string>
+    <string name="sync_sign_in_button">Android Sync Settings</string>
+    <string name="sync_sign_in_summary">Takes you to the System settings</string>
     <string name="sync_frequency">Automatically Sync</string>
     <string name="sync_now_button">Manually Sync Now</string>
     <string name="sync_using_data">Only Sync over Wifi</string>
@@ -32,7 +33,6 @@
     <string name="clear_memory_button">Clear Local Data</string>
     <string name="clear_memory_button_summary">Delete all Data on device</string>
     <string name="new_tag">New Tag</string>
-    <string name="sync_sign_in_summary">Takes you to the System settings for sign in</string>
     <string name="not_empty">Tag Name cannot be left blank</string>
     <string name="not_duplicate">Tag Name already exists, changes canceled</string>
     <string name="tag_name">Tag Name Here</string>
@@ -40,12 +40,21 @@
     <string name="tag_note">Add any notes here</string>
 
     <string name="help_text">
-        Tags definition, data points, and so on
-        Don\'t sue me
-        Project is open source
-        correlation is not causation,
-        GIGO
-        Alarms are inexact, newer android versions should go off within 10 min depending on doze settings, older android versions should be within an hour of set time
+        Welcome to Simple Tracker!\n\n
+
+        This app allows you to define data Tags for different things in your life. Then as those things happen, you can trigger the tag so that it records a data point. As you collect this data you can see what tags correlate to each other and some other statistics.
+        \n\nFor example, you could define a data tag for Headaches, a tag for sleep quality, and a tag for hydration. Then each day you record how well you slept, how well you stayed hydrated, and if you had a headache. After gathering data for a while you could see if hydration or sleep seem more correlated to headaches.\n\n
+
+        This app uses android\'s built in auto-backup, so if your android phone has backup enabled your data will be kept in your google drive but will not count towards your storage cap.\n\n
+
+        This project is open source, so if you have a feature you want to add, feel free to request it or create it yourself.\n\n
+
+        The daily reminder alarms are inexact, so on newer android versions they should go off within 10 min depending on doze settings, and on older android versions they should go off within an hour of set time.\n\n
+
+        Always remember that correlation is not causation, so finding a strong correlation doesn\'t mean that one thing causes the other. Also remember that your conclusions are only as useful as the data you collect.\n\n
+
+        Feel free to contact me at ada18031@byui.edu with questions or comments
+
     </string>
     <string name="notification_picker_button">Notification Time</string>
     <string name="notification_summary">Re-Enabling notifications does not set individual reminders</string>

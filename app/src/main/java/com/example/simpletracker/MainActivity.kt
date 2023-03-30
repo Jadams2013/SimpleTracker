@@ -8,8 +8,6 @@ import android.os.Bundle
 import android.util.Log
 import android.view.Menu
 import android.view.View
-import androidx.activity.result.contract.ActivityResultContracts
-import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.navigation.NavigationView
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
@@ -24,8 +22,6 @@ import androidx.appcompat.app.AppCompatDelegate.getDefaultNightMode
 import androidx.appcompat.app.AppCompatDelegate.setDefaultNightMode
 import androidx.lifecycle.lifecycleScope
 import androidx.preference.PreferenceManager
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 
 import com.example.simpletracker.databinding.ActivityMainBinding
 import kotlinx.coroutines.launch
@@ -57,7 +53,7 @@ class MainActivity : AppCompatActivity() {
         // menu should be considered as top level destinations.
         appBarConfiguration = AppBarConfiguration(
             setOf(
-                R.id.nav_home, R.id.nav_slideshow, R.xml.root_preferences
+                R.id.nav_home, R.id.nav_slideshow, R.id.nav_settings, R.id.nav_help
             ), drawerLayout
         )
         setupActionBarWithNavController(navController, appBarConfiguration)
@@ -201,11 +197,19 @@ class MainActivity : AppCompatActivity() {
     }
 
 
+    /*private fun setHelpScreen(view: View? = null) {
+        var sharedPref = PreferenceManager.getDefaultSharedPreferences(this)
+        var pref = sharedPref.getBoolean("helpOnStart", true)
+        if (pref) {  }
+    }// */
+
+
     private fun updateSettings(view:View? = null) {
         setFont()
         setNightMode()
         createNotificationChannel()
         setReminders()
+        //setHelpScreen()
     }
 
 

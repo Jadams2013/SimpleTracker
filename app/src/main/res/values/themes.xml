@@ -28,4 +28,8 @@
 
     <style name="Theme.SimpleTracker.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 
+    <style name="Theme.AppCompat.Translucent">
+        <item name="android:background">@color/transparent</item>
+    </style>
+
 </resources>

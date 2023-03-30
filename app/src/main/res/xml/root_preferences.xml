@@ -22,10 +22,10 @@
             app:key="font"
             app:title="@string/font_title"
             app:useSimpleSummaryProvider="true" />
-        <CheckBoxPreference
+        <!--CheckBoxPreference
             android:defaultValue="true"
             android:key="helpOnStart"
-            android:title="@string/help_switch_header" />
+            android:title="@string/help_switch_header" /-->
     </PreferenceCategory>
 
     <PreferenceCategory app:title="@string/notification_header">
@@ -38,14 +38,10 @@
 
 
     <PreferenceCategory app:title="@string/sync_header">
-        <!--TODO: FIRST figure out Sync stuff -->
         <Preference
             android:title="@string/sync_sign_in_button"
             android:key="signInButton"
             android:summary="@string/sync_sign_in_summary" />
-        <Preference
-            android:title="@string/sync_now_button"
-            android:key="syncNowButton" />
         <Preference
             android:title="@string/clear_memory_button"
             android:summary="@string/clear_memory_button_summary"

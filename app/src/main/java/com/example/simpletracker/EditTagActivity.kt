@@ -15,6 +15,7 @@ import android.widget.Button
 import android.widget.LinearLayout
 import android.widget.TextView
 import android.widget.ToggleButton
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.lifecycle.lifecycleScope
 import androidx.preference.PreferenceManager
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -35,6 +36,8 @@ class EditTagActivity : AppCompatActivity() {
         Calendar.getInstance(),
         false)
     private var pointsToDelete = mutableListOf<Tag.Point>()
+    private var pointsToInsert = mutableListOf<Tag.Point>()
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -56,6 +59,7 @@ class EditTagActivity : AppCompatActivity() {
         val dataHeader = findViewById<TextView>(R.id.noteInfo)
         val timeSelected = findViewById<TextView>(R.id.time_selected)
         val timePicker = findViewById<TextView>(R.id.time_picker)
+        val backDate = findViewById<Button>(R.id.backDate)
 
         //get from preferences
         val notificationsEnabled = PreferenceManager.getDefaultSharedPreferences(this)
@@ -72,6 +76,7 @@ class EditTagActivity : AppCompatActivity() {
             if (localTag.tagId == 0) {
                 reminderStuff.visibility = View.GONE
                 dataHeader.visibility = View.GONE
+                backDate.visibility = View.GONE
                 reminderHeader.text = getText(R.string.reminderStuff)
             } else {
 
@@ -145,6 +150,7 @@ class EditTagActivity : AppCompatActivity() {
                         if (localTag.reminderOn) alarmOn()
                         else alarmOff()
                         for (point in pointsToDelete) {tagDatabase.deletePoint(point)}
+                        for (point in pointsToInsert) {tagDatabase.insert(point)}
                     }
                 }
                 setResult(Activity.RESULT_OK, intent)
@@ -155,9 +161,35 @@ class EditTagActivity : AppCompatActivity() {
         val timePickerButton = findViewById<Button>(R.id.time_picker)
         timePickerButton.setOnClickListener {pickTime()}
 
+
+
+
+        findViewById<Button>(R.id.backDate).setOnClickListener() {
+            val backDateIntent = Intent(this, Backdate::class.java)
+            backDateIntent.putExtra("tag_id", localTag.tagId)
+            backdateResultLauncher.launch(backDateIntent)
+        }
+
     }
 
-    fun cancel(view: View? = null) {finish()}
+    private val backdateResultLauncher =
+        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+            if (result.resultCode == Activity.RESULT_OK) {
+
+                /*val newPoint = Tag.Point(0,
+                    result.data?.getIntExtra("tagId",0) ?: 0,
+                    Date(result.data?.getLongExtra("time",0) ?: 0),
+                    result.data?.getIntExtra("severity",0) ?:0 )
+
+                if (newPoint.tagIdForeignKey == 0 || newPoint.time.equals(0) || newPoint.severity == 0) {
+                } else {
+                  pointsToInsert.add(newPoint)
+                    //add point to recyclerview list?
+                } // */
+            }
+        }
+
+    fun cancel(view: View? = null) { finish() }
 
     private fun getTagFromDatabase(tagId: Int, view: View? = null) {
         lifecycleScope.launch {

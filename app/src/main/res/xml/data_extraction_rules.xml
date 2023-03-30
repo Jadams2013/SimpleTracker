@@ -5,9 +5,10 @@
 -->
 <data-extraction-rules>
     <cloud-backup>
-        <!-- TODO: FIRST
-        Figure this out Use <include> and <exclude> to control what is backed up.
-        <include .../>
+        <include domain="sharedpref" path="." />
+        <exclude domain="sharedpref" path="device.xml" />
+        <include domain="database" path="." />
+        <!--
         <exclude .../>
         -->
     </cloud-backup>

@@ -28,7 +28,6 @@ class Settings : PreferenceFragmentCompat() {
     override fun onPreferenceTreeClick(preference: Preference): Boolean {
         when (preference.key) {
             "signInButton" -> signIn()
-            "syncNowButton" -> sync()
             //"dark" -> dealWithTheme()
             //"font" -> dealWithFont()
             "clearMemoryButton" -> clearMemory()
@@ -53,13 +52,6 @@ class Settings : PreferenceFragmentCompat() {
         Log.d("Message", "signInButton")
         startActivity(Intent(android.provider.Settings.ACTION_SETTINGS))
     }
-
-    private fun sync() {
-        Log.d("Message", "syncNowButton")
-        //var mBuilder:NotificationCompat.Builder =  NotificationCompat.Builder(this)
-
-    }
-
 
 }
 
